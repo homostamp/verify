@@ -41,7 +41,7 @@ Since this utility is completely autonomous, you can host it anywhere or even ru
 
 This repository is configured to deploy automatically via **GitHub Pages**. 
 You can view the live, production-ready version of this validator anytime at:
-`https://<your-github-username>.github.io/<your-repo-name>/`
+`https://homostamp.github.io/verify/`
 
 ---
 
