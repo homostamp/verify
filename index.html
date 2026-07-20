@@ -1,0 +1,1079 @@
+<style>
+/* ==========================================================================
+   Homostamp — Bağımsız Doğrulama
+   Tema: koyu mürekkep zemin + kağıt tonlu sertifika kartı + mühür motifi
+   ========================================================================== */
+
+:root{
+  --ink-950: #0B0E13;
+  --ink-900: #12161D;
+  --ink-800: #1B212B;
+  --ink-line: #2A3140;
+
+  --paper: #EFE9DA;
+  --paper-dim: #E3DCC9;
+  --paper-ink: #2A2318;
+  --paper-ink-soft: #6B6250;
+
+  --seal-red: #9E2B25;
+  --seal-red-deep: #6E1B18;
+  --verify-green: #1F6F4A;
+  --verify-green-deep: #123F2A;
+  --fail-red: #9E2B25;
+
+  --text-hi: #E9E7DF;
+  --text-mid: #A7ADB9;
+  --text-low: #6B7280;
+
+  --radius-card: 10px;
+  --radius-sm: 6px;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --font-ui: "Inter", -apple-system, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+
+html,body{
+  margin:0;
+  padding:0;
+  background: var(--ink-950);
+  color: var(--text-hi);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+body{
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+
+.bg-grid{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image: radial-gradient(circle, rgba(233,231,223,0.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, black 40%, transparent 90%);
+}
+
+/* ---------------- topbar ---------------- */
+
+.topbar{
+  position:relative;
+  z-index:2;
+  border-bottom: 1px solid var(--ink-line);
+}
+.topbar-inner{
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+}
+.mark{
+  font-family: var(--font-mono);
+  font-weight:600;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--text-hi);
+}
+.topbar-label{
+  font-size: 12px;
+  color: var(--text-low);
+  letter-spacing: 0.04em;
+}
+
+/* ---------------- layout ---------------- */
+
+.page{
+  position:relative;
+  z-index:1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 24px 40px;
+}
+
+.intro{ margin-bottom: 48px; }
+
+.eyebrow{
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--verify-green);
+  text-transform: uppercase;
+  margin: 0 0 18px;
+}
+
+h1{
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin: 0 0 20px;
+  color: var(--text-hi);
+}
+
+.lede{
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-mid);
+  max-width: 56ch;
+  margin: 0;
+}
+
+/* ---------------- certificate card ---------------- */
+
+.certificate{
+  position:relative;
+  background: var(--paper);
+  color: var(--paper-ink);
+  border-radius: var(--radius-card);
+  padding: 40px 40px 36px;
+  box-shadow:
+    0 30px 60px -20px rgba(0,0,0,0.55),
+    0 2px 0 rgba(255,255,255,0.04) inset;
+  margin-top: 10px;
+}
+
+/* perforated top edge — punches holes showing the ink background through */
+.certificate::before{
+  content:"";
+  position:absolute;
+  top:-1px;
+  left:0;
+  right:0;
+  height:16px;
+  background-image: radial-gradient(circle at 8px 0px, var(--ink-950) 7px, transparent 7.5px);
+  background-size: 20px 16px;
+  background-repeat: repeat-x;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+
+.cert-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  border-bottom: 1px solid rgba(42,35,24,0.15);
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+}
+.cert-eyebrow{
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-ink);
+  font-weight: 600;
+}
+.cert-step-hint{
+  font-size: 12px;
+  color: var(--paper-ink-soft);
+}
+
+/* ---------------- fields ---------------- */
+
+.field{ margin-bottom: 26px; }
+
+.field-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom: 8px;
+}
+
+.field-num{
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 50%;
+  border: 1.5px solid var(--paper-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight:600;
+}
+
+.field label{
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--paper-ink);
+}
+
+.field input[type="text"]{
+  width:100%;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  padding: 13px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(42,35,24,0.22);
+  background: rgba(255,255,255,0.4);
+  color: var(--paper-ink);
+  outline: none;
+  transition: border-color .15s ease, background .15s ease;
+}
+.field input[type="text"]::placeholder{ color: rgba(42,35,24,0.35); }
+.field input[type="text"]:focus{
+  border-color: var(--seal-red);
+  background: rgba(255,255,255,0.7);
+}
+
+.field-hint{
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  color: var(--paper-ink-soft);
+}
+
+/* file drop */
+
+.file-drop{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding: 14px 16px;
+  border: 1.5px dashed rgba(42,35,24,0.3);
+  border-radius: var(--radius-sm);
+  cursor:pointer;
+  background: rgba(255,255,255,0.25);
+  transition: border-color .15s ease, background .15s ease;
+}
+.file-drop:hover{ border-color: var(--seal-red); background: rgba(255,255,255,0.45); }
+.file-drop.has-file{ border-style: solid; border-color: var(--verify-green); }
+.file-drop input[type="file"]{
+  position:absolute;
+  width:1px; height:1px;
+  opacity:0;
+  overflow:hidden;
+}
+.file-drop-icon{
+  font-size: 16px;
+  color: var(--paper-ink-soft);
+  flex: none;
+}
+.file-drop-text{
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: var(--paper-ink);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* ---------------- seal button ---------------- */
+
+.seal-button{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 999px;
+  cursor:pointer;
+  background: radial-gradient(circle at 30% 25%, #c23a32, var(--seal-red) 55%, var(--seal-red-deep) 100%);
+  color: #F5E9DF;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  box-shadow:
+    0 10px 24px -8px rgba(158,43,37,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+  transition: transform .12s ease;
+}
+.seal-button:hover{ transform: translateY(-1px); }
+.seal-button:active,
+.seal-button.stamping{ transform: translateY(1px) scale(0.98); }
+
+.seal-button-ring{
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(245,233,223,0.7);
+}
+
+.seal-button:disabled{
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.form-error{
+  margin: 14px 2px 0;
+  font-size: 13.5px;
+  color: var(--fail-red);
+  font-weight: 600;
+  min-height: 0;
+  display:none;
+}
+.form-error.visible{ display:block; }
+
+/* ---------------- result ---------------- */
+
+.result{
+  margin-top: 0;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .35s ease;
+}
+.result.visible{
+  margin-top: 30px;
+  max-height: 600px;
+}
+
+.result-inner{
+  display:flex;
+  align-items:flex-start;
+  gap: 22px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(42,35,24,0.15);
+}
+
+.stamp{
+  flex: none;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border: 3px double currentColor;
+  transform: rotate(-7deg) scale(0.5);
+  opacity: 0;
+  animation: stampDown .5s cubic-bezier(.2,1.4,.4,1) forwards;
+}
+.stamp.success{ color: var(--verify-green); box-shadow: 0 0 0 3px rgba(31,111,74,0.12); }
+.stamp.fail{ color: var(--fail-red); box-shadow: 0 0 0 3px rgba(158,43,37,0.12); }
+
+@keyframes stampDown{
+  0%{ opacity:0; transform: rotate(-7deg) scale(1.6); }
+  60%{ opacity:1; transform: rotate(-7deg) scale(0.92); }
+  100%{ opacity:1; transform: rotate(-7deg) scale(1); }
+}
+
+.result-text h3{
+  font-family: var(--font-display);
+  font-weight:600;
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+.result-text.success h3{ color: var(--verify-green-deep); }
+.result-text.fail h3{ color: var(--fail-red); }
+
+.result-text p{
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--paper-ink-soft);
+  line-height: 1.55;
+}
+.result-text code{
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: rgba(42,35,24,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  word-break: break-all;
+}
+
+/* loading state */
+.result-loading{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(42,35,24,0.15);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--paper-ink-soft);
+}
+.spinner{
+  width: 16px; height:16px;
+  border-radius:50%;
+  border: 2px solid rgba(42,35,24,0.2);
+  border-top-color: var(--seal-red);
+  animation: spin .7s linear infinite;
+}
+@keyframes spin{ to{ transform: rotate(360deg); } }
+
+/* ---------------- how it works ---------------- */
+
+.how{ margin-top: 64px; }
+.how h2{
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  margin: 0 0 20px;
+  color: var(--text-hi);
+}
+.how-steps{
+  list-style: none;
+  margin:0; padding:0;
+  display:grid;
+  gap: 10px;
+}
+.how-steps li{
+  display:flex;
+  align-items:baseline;
+  gap: 12px;
+  font-size: 14.5px;
+  color: var(--text-mid);
+  padding: 12px 14px;
+  background: var(--ink-900);
+  border: 1px solid var(--ink-line);
+  border-radius: var(--radius-sm);
+}
+.how-tag{
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--verify-green);
+  border: 1px solid rgba(31,111,74,0.4);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.how-note, .how-scope{
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-low);
+  max-width: 62ch;
+  margin: 18px 0 0;
+}
+.how-note a{ color: var(--verify-green); text-decoration: none; border-bottom: 1px dotted currentColor; }
+.how-scope{ color: var(--text-low); font-style: italic; }
+
+/* ---------------- footer ---------------- */
+
+.footer{
+  position:relative;
+  z-index:1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+  border-top: 1px solid var(--ink-line);
+  margin-top: 40px;
+}
+.footer p{
+  font-size: 12.5px;
+  color: var(--text-low);
+  margin:0;
+}
+
+/* ---------------- responsive ---------------- */
+
+@media (max-width: 560px){
+  .certificate{ padding: 28px 22px 26px; }
+  .result-inner{ flex-direction: column; align-items:flex-start; }
+}
+
+/* ---------------- reduced motion ---------------- */
+
+@media (prefers-reduced-motion: reduce){
+  .stamp{ animation: none; opacity:1; transform: rotate(-7deg) scale(1); }
+  .spinner{ animation: none; }
+  .seal-button{ transition: none; }
+}
+
+/* ---------------- focus visibility ---------------- */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+.file-drop:focus-within{
+  outline: 2px solid var(--seal-red);
+  outline-offset: 2px;
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bağımsız Doğrulama — Homostamp</title>
+<meta name="description" content="Homostamp sunucularına ihtiyaç duymadan, doğrudan blockchain üzerinden mühür doğrulama.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="mark">HOMOSTAMP</span>
+    <span class="topbar-label">Bağımsız Doğrulama Aracı</span>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="intro">
+    <p class="eyebrow">Sunucusuz · Yalnızca Tarayıcı · Zincir Üzerinden</p>
+    <h1>Kaydınızı kimseye<br>sormadan doğrulayın.</h1>
+    <p class="lede">
+      Bu sayfa Homostamp sunucularıyla hiç konuşmaz. Doğrulama kodunuzu, zaman damgası
+      dosyanızı (.tsr) ve orijinal eserinizi girdiğinizde, hash'i tarayıcınızda yeniden
+      hesaplar ve doğrudan Polygon blockchain'ine sorar.
+    </p>
+  </section>
+
+  <section class="certificate" id="certificate">
+
+    <div class="cert-head">
+      <span class="cert-eyebrow">Kanıt Bileşenleri</span>
+      <span class="cert-step-hint">3 parça · sırayla birleştirilir</span>
+    </div>
+
+    <form id="verifyForm" novalidate>
+
+      <div class="field">
+        <div class="field-head">
+          <span class="field-num">1</span>
+          <label for="verificationCode">Doğrulama Kodu</label>
+        </div>
+        <input
+          type="text"
+          id="verificationCode"
+          name="verificationCode"
+          placeholder="HS-93AF01C1E7B2"
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <p class="field-hint">Sertifikanızın üzerinde yazan kod. Örn: HS-93AF01C1E7B2</p>
+      </div>
+
+      <div class="field">
+        <div class="field-head">
+          <span class="field-num">2</span>
+          <label for="tsrFile">Zaman Damgası Dosyası (.tsr)</label>
+        </div>
+        <label class="file-drop" id="tsrDrop" for="tsrFile">
+          <input type="file" id="tsrFile" name="tsrFile" accept=".tsr">
+          <span class="file-drop-icon">◈</span>
+          <span class="file-drop-text" id="tsrFileName">Dosya seçin veya sürükleyin</span>
+        </label>
+        <p class="field-hint">İndirdiğiniz kanıt paketindeki .tsr dosyası.</p>
+      </div>
+
+      <div class="field">
+        <div class="field-head">
+          <span class="field-num">3</span>
+          <label for="originalFile">Orijinal Eser</label>
+        </div>
+        <label class="file-drop" id="originalDrop" for="originalFile">
+          <input type="file" id="originalFile" name="originalFile">
+          <span class="file-drop-icon">◈</span>
+          <span class="file-drop-text" id="originalFileName">Dosya seçin veya sürükleyin</span>
+        </label>
+        <p class="field-hint">Mühürlenme anındaki hâliyle birebir aynı dosya olmalı.</p>
+      </div>
+
+      <button type="submit" class="seal-button" id="sealButton">
+        <span class="seal-button-ring"></span>
+        <span class="seal-button-text">Mührü Kontrol Et</span>
+      </button>
+
+      <p class="form-error" id="formError" role="alert"></p>
+
+    </form>
+
+    <div class="result" id="result" aria-live="polite"></div>
+
+  </section>
+
+  <section class="how">
+    <h2>Bu sayfa tam olarak ne yapıyor?</h2>
+    <ol class="how-steps">
+      <li>
+        <span class="how-tag">Tarayıcıda</span>
+        Orijinal dosyanızın SHA-256 özetini hesaplar.
+      </li>
+      <li>
+        <span class="how-tag">Tarayıcıda</span>
+        .tsr dosyasını çözümler, içindeki TSA seri numarasını çıkarır.
+      </li>
+      <li>
+        <span class="how-tag">Tarayıcıda</span>
+        Doğrulama kodu + seri numarası + dosya özetini birleştirip yeniden hash'ler.
+      </li>
+      <li>
+        <span class="how-tag">Zincirde</span>
+        Elde edilen mührün Polygon üzerindeki akıllı sözleşmede kayıtlı olup olmadığını sorar.
+      </li>
+    </ol>
+    <p class="how-note">
+      Homostamp.com çevrimdışı kalsa, hatta tamamen kapansa bile — elinizde sertifika,
+      .tsr dosyası ve orijinal eser olduğu sürece bu doğrulama çalışmaya devam eder.
+      Kontrat: <a href="https://polygonscan.com/address/0x38Fae0144C7Cc75e35B9b1b1813bdDF2E9AC76F8" target="_blank" rel="noopener">0x38Fae...C76F8 ↗</a>
+    </p>
+    <p class="how-scope">
+      Kapsam dışı: bu araç yalnızca zincir kaydını doğrular; TSA'nın kriptografik imza
+      zincirini (CMS/RFC3161 sertifika doğrulaması) ayrıca kontrol etmez.
+    </p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>Homostamp — insan üretimi dijital eserler için bağımsız kanıt.</p>
+</footer>
+
+
+
+<script>
+/* ==========================================================================
+   Homostamp — Bağımsız Doğrulama Motoru
+   Sunucuya hiç istek atmaz. Her şey tarayıcıda + doğrudan Polygon RPC'sinde
+   gerçekleşir.
+   ========================================================================== */
+
+// -----------------------------------------------------------------------
+// Sabitler
+// -----------------------------------------------------------------------
+
+// PRD Bölüm 4.2'de tanımlı kontrat ve method ID.
+const CONTRACT_ADDRESS = "0x38Fae0144C7Cc75e35B9b1b1813bdDF2E9AC76F8";
+const METHOD_ID_GET_STAMP_TIMESTAMP = "0xb937e86c"; // getStampTimestamp(bytes32)
+
+// Birden fazla public RPC deneniyor; biri CORS/timeout ile başarısız
+// olursa sıradaki denenir. İsterseniz bu listeyi genişletebilirsiniz.
+const RPC_ENDPOINTS = [
+  "https://polygon-rpc.com",
+  "https://polygon-bor-rpc.publicnode.com",
+  "https://polygon.drpc.org",
+  "https://rpc.ankr.com/polygon"
+];
+
+// ÖNEMLİ VARSAYIM: dashboard.php içinde finalHash şu şekilde üretiliyor:
+//   hash('sha256', $verification_code . $tsa_serial . $sha256_hash)
+// $tsa_serial'in PHP tarafında (readTSR fonksiyonunda) TAM OLARAK hangi
+// string formatında saklandığı (küçük/büyük harf hex, ondalık, dolgu
+// sıfırları vb.) bu dosyanın yazıldığı sırada netleşmemişti. Bu yüzden
+// aşağıda birkaç olası format sırayla denenir. Gerçek formatı netleşince
+// SERIAL_FORMATS listesini tek bir doğru girdiye indirin — hem daha hızlı
+// çalışır hem de yanlış-pozitif riskini sıfırlar.
+const SERIAL_FORMATS = ["hex-lower", "hex-upper", "decimal"];
+
+
+// -----------------------------------------------------------------------
+// Genel yardımcılar
+// -----------------------------------------------------------------------
+
+function bytesToHex(bytes) {
+  return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+function bytesToBigInt(bytes) {
+  let v = 0n;
+  for (const b of bytes) v = (v << 8n) | BigInt(b);
+  return v;
+}
+
+async function sha256HexOfString(str) {
+  const enc = new TextEncoder().encode(str);
+  const digest = await crypto.subtle.digest("SHA-256", enc);
+  return bytesToHex(new Uint8Array(digest));
+}
+
+async function sha256HexOfFile(file) {
+  const buf = await file.arrayBuffer();
+  const digest = await crypto.subtle.digest("SHA-256", buf);
+  return bytesToHex(new Uint8Array(digest));
+}
+
+function formatSerial(serialBytes, format) {
+  if (format === "hex-lower") return bytesToHex(serialBytes);
+  if (format === "hex-upper") return bytesToHex(serialBytes).toUpperCase();
+  if (format === "decimal") return bytesToBigInt(serialBytes).toString(10);
+  throw new Error("Bilinmeyen seri numarası formatı: " + format);
+}
+
+
+// -----------------------------------------------------------------------
+// Minimal ASN.1 DER ayrıştırıcı
+// (RFC 3161 TimeStampResp yapısını okumak için yeterli, genel amaçlı,
+// belirsiz uzunluk (indefinite length / BER) desteklemez — DER için
+// gerekmiyor.)
+// -----------------------------------------------------------------------
+
+function parseDER(bytes, offset = 0) {
+  if (offset >= bytes.length) {
+    throw new Error("TSR dosyası beklenenden erken bitti.");
+  }
+
+  const tag = bytes[offset];
+  let p = offset + 1;
+
+  if (p >= bytes.length) throw new Error("TSR dosyası bozuk (uzunluk baytı eksik).");
+  let lenByte = bytes[p++];
+  let length;
+
+  if (lenByte & 0x80) {
+    const numBytes = lenByte & 0x7f;
+    if (numBytes === 0) throw new Error("TSR dosyası desteklenmeyen bir kodlama kullanıyor (belirsiz uzunluk).");
+    if (p + numBytes > bytes.length) throw new Error("TSR dosyası bozuk (uzunluk alanı taşıyor).");
+    length = 0;
+    for (let i = 0; i < numBytes; i++) length = length * 256 + bytes[p++];
+  } else {
+    length = lenByte;
+  }
+
+  const valueStart = p;
+  const valueEnd = valueStart + length;
+  if (valueEnd > bytes.length) {
+    throw new Error("TSR dosyası bozuk görünüyor (beyan edilen uzunluk dosya sınırını aşıyor).");
+  }
+
+  const constructed = (tag & 0x20) !== 0;
+  const node = { tag, valueStart, valueEnd, raw: bytes.subarray(valueStart, valueEnd) };
+
+  if (constructed) {
+    node.children = [];
+    let cp = valueStart;
+    while (cp < valueEnd) {
+      const child = parseDER(bytes, cp);
+      node.children.push(child);
+      cp = child.valueEnd;
+    }
+  }
+
+  return node;
+}
+
+function childOrThrow(node, index, context) {
+  if (!node.children || node.children.length <= index) {
+    throw new Error("TSR yapısı beklenen alanı içermiyor: " + context);
+  }
+  return node.children[index];
+}
+
+// TimeStampResp içinden TSTInfo'yu (ve dolayısıyla serialNumber + genTime'ı)
+// çıkarır. Yapı (RFC 3161):
+//   TimeStampResp        ::= SEQUENCE { status, timeStampToken }
+//   timeStampToken        = ContentInfo (SEQUENCE)
+//   ContentInfo           ::= SEQUENCE { contentType, content [0] EXPLICIT }
+//   content[0]             -> SignedData (SEQUENCE)
+//   SignedData            ::= SEQUENCE { version, digestAlgorithms, encapContentInfo, ... }
+//   encapContentInfo      ::= SEQUENCE { eContentType, eContent [0] EXPLICIT OCTET STRING }
+//   eContent'in içeriği    = TSTInfo'nun DER kodlaması
+//   TSTInfo               ::= SEQUENCE { version, policy, messageImprint, serialNumber, genTime, ... }
+function extractTsaInfo(tsrBytes) {
+  const timeStampResp = parseDER(tsrBytes, 0);
+  const timeStampToken = childOrThrow(timeStampResp, 1, "timeStampToken (ContentInfo)");
+
+  const contentExplicit = childOrThrow(timeStampToken, 1, "content [0] EXPLICIT");
+  const signedData = childOrThrow(contentExplicit, 0, "SignedData");
+
+  const encapContentInfo = childOrThrow(signedData, 2, "encapContentInfo");
+  const eContentExplicit = childOrThrow(encapContentInfo, 1, "eContent [0] EXPLICIT");
+  const octetString = childOrThrow(eContentExplicit, 0, "eContent OCTET STRING");
+
+  const tstInfo = parseDER(octetString.raw, 0);
+  const serialNode = childOrThrow(tstInfo, 3, "TSTInfo.serialNumber");
+  const genTimeNode = tstInfo.children[4] || null;
+
+  // INTEGER kodlamasında, en yüksek bit set olduğunda negatif algılanmaması
+  // için baştaki 0x00 dolgu baytı eklenir — anlamlı değer için bunu at.
+  let serialBytes = serialNode.raw;
+  let i = 0;
+  while (serialBytes.length - i > 1 && serialBytes[i] === 0x00 && (serialBytes[i + 1] & 0x80)) {
+    i++;
+  }
+  serialBytes = serialBytes.slice(i);
+
+  const genTime = genTimeNode ? new TextDecoder().decode(genTimeNode.raw) : null;
+
+  return { serialBytes, genTime };
+}
+
+// Bazı TSA istemcileri (ve bu projedeki dashboard.php de dahil olmak
+// üzere) TSR yanıtını binary DER olarak değil, hex-encoded ASCII metin
+// olarak diske yazar (örn. dosyanın içeriği "3082..." gibi okunabilir
+// karakterlerden oluşur, gerçek baytlardan değil). Standart binary DER'de
+// böyle bir şey olamaz: 16'lık hex karakterleri (0-9a-fA-F) dışında baytlar
+// mutlaka bulunur. Bu yüzden önce dosyanın hex-metin olup olmadığına bakılır.
+function isProbablyHexText(bytes) {
+  if (bytes.length === 0) return false;
+  let hexChars = 0;
+  let total = 0;
+  for (const b of bytes) {
+    // satır sonu / boşluk karakterlerini yok say
+    if (b === 0x0a || b === 0x0d || b === 0x20 || b === 0x09) continue;
+    total++;
+    const isHexDigit =
+      (b >= 0x30 && b <= 0x39) || // 0-9
+      (b >= 0x41 && b <= 0x46) || // A-F
+      (b >= 0x61 && b <= 0x66);   // a-f
+    if (isHexDigit) hexChars++;
+  }
+  return total > 0 && hexChars === total;
+}
+
+function hexTextToBytes(bytes) {
+  const str = new TextDecoder().decode(bytes).replace(/\s+/g, "");
+  if (str.length % 2 !== 0) {
+    throw new Error("Hex metin olarak algılandı ama karakter sayısı tek — dosya yarım kalmış olabilir.");
+  }
+  const out = new Uint8Array(str.length / 2);
+  for (let i = 0; i < out.length; i++) {
+    out[i] = parseInt(str.substr(i * 2, 2), 16);
+  }
+  return out;
+}
+
+// Dosyayı ham haliyle veya (gerekiyorsa) hex çözümü yapılmış haliyle döner.
+function normalizeTsrBytes(rawBytes) {
+  if (isProbablyHexText(rawBytes)) {
+    return hexTextToBytes(rawBytes);
+  }
+  return rawBytes;
+}
+
+function parseGeneralizedTime(str) {
+  if (!str) return null;
+  const m = str.match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(?:\.\d+)?Z$/);
+  if (!m) return null;
+  const [, y, mo, d, h, mi, s] = m;
+  return new Date(Date.UTC(+y, +mo - 1, +d, +h, +mi, +s));
+}
+
+
+// -----------------------------------------------------------------------
+// Blockchain sorgusu (doğrudan JSON-RPC, herhangi bir kütüphane yok)
+// -----------------------------------------------------------------------
+
+async function getStampTimestamp(finalHashHex) {
+  const data = METHOD_ID_GET_STAMP_TIMESTAMP + finalHashHex.padStart(64, "0");
+  const payload = {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "eth_call",
+    params: [{ to: CONTRACT_ADDRESS, data }, "latest"]
+  };
+
+  let lastError = null;
+
+  for (const url of RPC_ENDPOINTS) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error("RPC HTTP " + res.status);
+      const json = await res.json();
+      if (json.error) throw new Error(json.error.message || "RPC hata döndürdü.");
+      if (!json.result) throw new Error("RPC boş yanıt döndürdü.");
+      return BigInt(json.result);
+    } catch (err) {
+      lastError = err;
+      continue; // sıradaki RPC'yi dene
+    }
+  }
+
+  throw new Error(
+    "Hiçbir blockchain düğümüne ulaşılamadı. " +
+    (lastError ? "Son hata: " + lastError.message : "")
+  );
+}
+
+
+// -----------------------------------------------------------------------
+// UI durum yönetimi
+// -----------------------------------------------------------------------
+
+const form = document.getElementById("verifyForm");
+const sealButton = document.getElementById("sealButton");
+const formError = document.getElementById("formError");
+const resultBox = document.getElementById("result");
+
+const verificationCodeInput = document.getElementById("verificationCode");
+const tsrFileInput = document.getElementById("tsrFile");
+const originalFileInput = document.getElementById("originalFile");
+
+const tsrDrop = document.getElementById("tsrDrop");
+const tsrFileName = document.getElementById("tsrFileName");
+const originalDrop = document.getElementById("originalDrop");
+const originalFileName = document.getElementById("originalFileName");
+
+function wireFileLabel(input, dropEl, nameEl, fallbackText) {
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if (file) {
+      nameEl.textContent = file.name;
+      dropEl.classList.add("has-file");
+    } else {
+      nameEl.textContent = fallbackText;
+      dropEl.classList.remove("has-file");
+    }
+  });
+}
+wireFileLabel(tsrFileInput, tsrDrop, tsrFileName, "Dosya seçin veya sürükleyin");
+wireFileLabel(originalFileInput, originalDrop, originalFileName, "Dosya seçin veya sürükleyin");
+
+function showFormError(message) {
+  formError.textContent = message;
+  formError.classList.add("visible");
+}
+function clearFormError() {
+  formError.textContent = "";
+  formError.classList.remove("visible");
+}
+
+function setLoading(isLoading, label) {
+  sealButton.disabled = isLoading;
+  if (isLoading) {
+    resultBox.classList.add("visible");
+    resultBox.innerHTML = `
+      <div class="result-loading">
+        <span class="spinner"></span>
+        <span>${label}</span>
+      </div>`;
+  }
+}
+
+function renderSuccess({ date, finalHash }) {
+  const dateStr = date
+    ? date.toLocaleString("tr-TR", { dateStyle: "long", timeStyle: "medium", timeZone: "UTC" }) + " (UTC)"
+    : "bilinmiyor";
+
+  resultBox.classList.add("visible");
+  resultBox.innerHTML = `
+    <div class="result-inner">
+      <div class="stamp success">Doğrulandı</div>
+      <div class="result-text success">
+        <h3>Bu kayıt blockchain'de mevcut.</h3>
+        <p>Zincire yazılma zamanı: <strong>${dateStr}</strong></p>
+        <p>Mühür (finalHash): <code>${finalHash}</code></p>
+        <p>Bu sonuç yalnızca Polygon ağından okunmuştur; Homostamp veritabanına hiç erişilmedi.</p>
+      </div>
+    </div>`;
+}
+
+function renderFail() {
+  resultBox.classList.add("visible");
+  resultBox.innerHTML = `
+    <div class="result-inner">
+      <div class="stamp fail">Bulunamadı</div>
+      <div class="result-text fail">
+        <h3>Bu kombinasyon zincirde kayıtlı değil.</h3>
+        <p>Doğrulama kodu, .tsr dosyası ve orijinal eserin üçü de birbiriyle
+           birebir eşleşmeli. Dosyanın mühürlendiği andan sonra
+           değiştirilmemiş (yeniden kaydedilmemiş, sıkıştırılmamış,
+           dönüştürülmemiş) olduğundan emin olun.</p>
+      </div>
+    </div>`;
+}
+
+function renderError(message) {
+  resultBox.classList.add("visible");
+  resultBox.innerHTML = `
+    <div class="result-inner">
+      <div class="stamp fail">Hata</div>
+      <div class="result-text fail">
+        <h3>Doğrulama tamamlanamadı.</h3>
+        <p>${message}</p>
+      </div>
+    </div>`;
+}
+
+
+// -----------------------------------------------------------------------
+// Ana akış
+// -----------------------------------------------------------------------
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  clearFormError();
+  resultBox.classList.remove("visible");
+  resultBox.innerHTML = "";
+
+  const verificationCode = verificationCodeInput.value.trim().toUpperCase();
+  const tsrFile = tsrFileInput.files[0];
+  const originalFile = originalFileInput.files[0];
+
+  if (!/^HS-[A-F0-9]{12}$/.test(verificationCode)) {
+    showFormError("Doğrulama kodu 'HS-' ile başlayıp 12 karakterlik onaltılık bir kod içermeli. Örn: HS-93AF01C1E7B2");
+    return;
+  }
+  if (!tsrFile) {
+    showFormError("Lütfen .tsr zaman damgası dosyasını seçin.");
+    return;
+  }
+  if (!originalFile) {
+    showFormError("Lütfen orijinal eseri seçin.");
+    return;
+  }
+
+  try {
+    setLoading(true, "Dosyalar okunuyor ve özet çıkarılıyor…");
+
+    const rawTsrBytes = new Uint8Array(await tsrFile.arrayBuffer());
+    const tsrBytes = normalizeTsrBytes(rawTsrBytes);
+    let tsaInfo;
+    try {
+      tsaInfo = extractTsaInfo(tsrBytes);
+    } catch (err) {
+      throw new Error("TSR dosyası çözümlenemedi: " + err.message + " Doğru dosyayı yüklediğinizden emin olun.");
+    }
+
+    const fileHashHex = await sha256HexOfFile(originalFile);
+    const genTimeDate = parseGeneralizedTime(tsaInfo.genTime);
+
+    setLoading(true, "Zincir üzerinde mühür aranıyor…");
+
+    let matched = null;
+    const triedFormats = new Set();
+
+    for (const format of SERIAL_FORMATS) {
+      const serialCandidate = formatSerial(tsaInfo.serialBytes, format);
+      if (triedFormats.has(serialCandidate)) continue;
+      triedFormats.add(serialCandidate);
+
+      const combined = verificationCode + serialCandidate + fileHashHex;
+      const finalHash = await sha256HexOfString(combined);
+
+      const ts = await getStampTimestamp(finalHash);
+      if (ts > 0n) {
+        matched = { finalHash, ts };
+        break;
+      }
+    }
+
+    if (matched) {
+      const chainDate = new Date(Number(matched.ts) * 1000);
+      renderSuccess({ date: chainDate, finalHash: matched.finalHash });
+    } else {
+      renderFail();
+    }
+  } catch (err) {
+    renderError(err.message || "Beklenmeyen bir hata oluştu.");
+  } finally {
+    sealButton.disabled = false;
+  }
+});
+</script>
+
+
+
+</body>
+</html>
