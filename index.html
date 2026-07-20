@@ -1,7 +1,7 @@
 <style>
 /* ==========================================================================
-   Homostamp — Bağımsız Doğrulama
-   Tema: koyu mürekkep zemin + kağıt tonlu sertifika kartı + mühür motifi
+   Homostamp — Independent Verification
+   Theme: dark ink background + paper-toned certificate card + seal motif
    ========================================================================== */
 
 :root{
@@ -503,12 +503,12 @@ input:focus-visible,
 </style>
 
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bağımsız Doğrulama — Homostamp</title>
-<meta name="description" content="Homostamp sunucularına ihtiyaç duymadan, doğrudan blockchain üzerinden mühür doğrulama.">
+<title>Independent Verification — Homostamp</title>
+<meta name="description" content="Verify stamps directly on the blockchain, without relying on Homostamp servers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -520,27 +520,27 @@ input:focus-visible,
 <header class="topbar">
   <div class="topbar-inner">
     <span class="mark">HOMOSTAMP</span>
-    <span class="topbar-label">Bağımsız Doğrulama Aracı</span>
+    <span class="topbar-label">Independent Verification Tool</span>
   </div>
 </header>
 
 <main class="page">
 
   <section class="intro">
-    <p class="eyebrow">Sunucusuz · Yalnızca Tarayıcı · Zincir Üzerinden</p>
-    <h1>Kaydınızı kimseye<br>sormadan doğrulayın.</h1>
+    <p class="eyebrow">Serverless · Browser-Only · On-Chain</p>
+    <h1>Verify your record<br>autonomously.</h1>
     <p class="lede">
-      Bu sayfa Homostamp sunucularıyla hiç konuşmaz. Doğrulama kodunuzu, zaman damgası
-      dosyanızı (.tsr) ve orijinal eserinizi girdiğinizde, hash'i tarayıcınızda yeniden
-      hesaplar ve doğrudan Polygon blockchain'ine sorar.
+      This page never communicates with Homostamp servers. When you provide your verification code,
+      timestamp file (.tsr), and original work, it recalculates the cryptographic hash entirely 
+      in your browser and queries the Polygon blockchain directly.
     </p>
   </section>
 
   <section class="certificate" id="certificate">
 
     <div class="cert-head">
-      <span class="cert-eyebrow">Kanıt Bileşenleri</span>
-      <span class="cert-step-hint">3 parça · sırayla birleştirilir</span>
+      <span class="cert-eyebrow">Proof Components</span>
+      <span class="cert-step-hint">3 parts · concatenated sequentially</span>
     </div>
 
     <form id="verifyForm" novalidate>
@@ -548,7 +548,7 @@ input:focus-visible,
       <div class="field">
         <div class="field-head">
           <span class="field-num">1</span>
-          <label for="verificationCode">Doğrulama Kodu</label>
+          <label for="verificationCode">Verification Code</label>
         </div>
         <input
           type="text"
@@ -558,38 +558,38 @@ input:focus-visible,
           autocomplete="off"
           spellcheck="false"
         >
-        <p class="field-hint">Sertifikanızın üzerinde yazan kod. Örn: HS-93AF01C1E7B2</p>
+        <p class="field-hint">The code printed on your certificate. E.g., HS-93AF01C1E7B2</p>
       </div>
 
       <div class="field">
         <div class="field-head">
           <span class="field-num">2</span>
-          <label for="tsrFile">Zaman Damgası Dosyası (.tsr)</label>
+          <label for="tsrFile">Timestamp File (.tsr)</label>
         </div>
         <label class="file-drop" id="tsrDrop" for="tsrFile">
           <input type="file" id="tsrFile" name="tsrFile" accept=".tsr">
           <span class="file-drop-icon">◈</span>
-          <span class="file-drop-text" id="tsrFileName">Dosya seçin veya sürükleyin</span>
+          <span class="file-drop-text" id="tsrFileName">Select or drop file</span>
         </label>
-        <p class="field-hint">İndirdiğiniz kanıt paketindeki .tsr dosyası.</p>
+        <p class="field-hint">The .tsr file included in your downloaded proof package.</p>
       </div>
 
       <div class="field">
         <div class="field-head">
           <span class="field-num">3</span>
-          <label for="originalFile">Orijinal Eser</label>
+          <label for="originalFile">Original Work</label>
         </div>
         <label class="file-drop" id="originalDrop" for="originalFile">
           <input type="file" id="originalFile" name="originalFile">
           <span class="file-drop-icon">◈</span>
-          <span class="file-drop-text" id="originalFileName">Dosya seçin veya sürükleyin</span>
+          <span class="file-drop-text" id="originalFileName">Select or drop file</span>
         </label>
-        <p class="field-hint">Mühürlenme anındaki hâliyle birebir aynı dosya olmalı.</p>
+        <p class="field-hint">Must be the exact identical file as it was at the moment of stamping.</p>
       </div>
 
       <button type="submit" class="seal-button" id="sealButton">
         <span class="seal-button-ring"></span>
-        <span class="seal-button-text">Mührü Kontrol Et</span>
+        <span class="seal-button-text">Verify Seal</span>
       </button>
 
       <p class="form-error" id="formError" role="alert"></p>
@@ -601,61 +601,58 @@ input:focus-visible,
   </section>
 
   <section class="how">
-    <h2>Bu sayfa tam olarak ne yapıyor?</h2>
+    <h2>What exactly does this page do?</h2>
     <ol class="how-steps">
       <li>
-        <span class="how-tag">Tarayıcıda</span>
-        Orijinal dosyanızın SHA-256 özetini hesaplar.
+        <span class="how-tag">In-Browser</span>
+        Computes the SHA-256 cryptographic digest of your original file.
       </li>
       <li>
-        <span class="how-tag">Tarayıcıda</span>
-        .tsr dosyasını çözümler, içindeki TSA seri numarasını çıkarır.
+        <span class="how-tag">In-Browser</span>
+        Parses the .tsr file to extract the official TSA serial number.
       </li>
       <li>
-        <span class="how-tag">Tarayıcıda</span>
-        Doğrulama kodu + seri numarası + dosya özetini birleştirip yeniden hash'ler.
+        <span class="how-tag">In-Browser</span>
+        Combines the verification code, serial number, and file hash to generate the final seal hash.
       </li>
       <li>
-        <span class="how-tag">Zincirde</span>
-        Elde edilen mührün Polygon üzerindeki akıllı sözleşmede kayıtlı olup olmadığını sorar.
+        <span class="how-tag">On-Chain</span>
+        Queries the smart contract on Polygon to check if this exact seal exists on the ledger.
       </li>
     </ol>
     <p class="how-note">
-      Homostamp.com çevrimdışı kalsa, hatta tamamen kapansa bile — elinizde sertifika,
-      .tsr dosyası ve orijinal eser olduğu sürece bu doğrulama çalışmaya devam eder.
-      Kontrat: <a href="https://polygonscan.com/address/0x38Fae0144C7Cc75e35B9b1b1813bdDF2E9AC76F8" target="_blank" rel="noopener">0x38Fae...C76F8 ↗</a>
+      Even if Homostamp.com goes offline or ceases to exist entirely — as long as you hold your certificate,
+      the .tsr file, and the original work, this verification remains completely functional.
+      Contract: <a href="https://polygonscan.com/address/0x38Fae0144C7Cc75e35B9b1b1813bdDF2E9AC76F8" target="_blank" rel="noopener">0x38Fae...C76F8 ↗</a>
     </p>
     <p class="how-scope">
-      Kapsam dışı: bu araç yalnızca zincir kaydını doğrular; TSA'nın kriptografik imza
-      zincirini (CMS/RFC3161 sertifika doğrulaması) ayrıca kontrol etmez.
+      Out of scope: This utility strictly validates the blockchain ledger state; it does not independently 
+      verify the TSA's cryptographic signature chain (CMS/RFC3161 certificate path validation).
     </p>
   </section>
 
 </main>
 
 <footer class="footer">
-  <p>Homostamp — insan üretimi dijital eserler için bağımsız kanıt.</p>
+  <p>Homostamp — autonomous proof for human-generated digital works.</p>
 </footer>
 
 
 
 <script>
 /* ==========================================================================
-   Homostamp — Bağımsız Doğrulama Motoru
-   Sunucuya hiç istek atmaz. Her şey tarayıcıda + doğrudan Polygon RPC'sinde
-   gerçekleşir.
+   Homostamp — Independent Verification Engine
+   Makes zero server requests. Everything happens inside the browser + directly
+   against the Polygon RPC nodes.
    ========================================================================== */
 
 // -----------------------------------------------------------------------
-// Sabitler
+// Constants
 // -----------------------------------------------------------------------
 
-// PRD Bölüm 4.2'de tanımlı kontrat ve method ID.
 const CONTRACT_ADDRESS = "0x38Fae0144C7Cc75e35B9b1b1813bdDF2E9AC76F8";
 const METHOD_ID_GET_STAMP_TIMESTAMP = "0xb937e86c"; // getStampTimestamp(bytes32)
 
-// Birden fazla public RPC deneniyor; biri CORS/timeout ile başarısız
-// olursa sıradaki denenir. İsterseniz bu listeyi genişletebilirsiniz.
 const RPC_ENDPOINTS = [
   "https://polygon-rpc.com",
   "https://polygon-bor-rpc.publicnode.com",
@@ -663,19 +660,11 @@ const RPC_ENDPOINTS = [
   "https://rpc.ankr.com/polygon"
 ];
 
-// ÖNEMLİ VARSAYIM: dashboard.php içinde finalHash şu şekilde üretiliyor:
-//   hash('sha256', $verification_code . $tsa_serial . $sha256_hash)
-// $tsa_serial'in PHP tarafında (readTSR fonksiyonunda) TAM OLARAK hangi
-// string formatında saklandığı (küçük/büyük harf hex, ondalık, dolgu
-// sıfırları vb.) bu dosyanın yazıldığı sırada netleşmemişti. Bu yüzden
-// aşağıda birkaç olası format sırayla denenir. Gerçek formatı netleşince
-// SERIAL_FORMATS listesini tek bir doğru girdiye indirin — hem daha hızlı
-// çalışır hem de yanlış-pozitif riskini sıfırlar.
 const SERIAL_FORMATS = ["hex-lower", "hex-upper", "decimal"];
 
 
 // -----------------------------------------------------------------------
-// Genel yardımcılar
+// Common Helpers
 // -----------------------------------------------------------------------
 
 function bytesToHex(bytes) {
@@ -704,33 +693,30 @@ function formatSerial(serialBytes, format) {
   if (format === "hex-lower") return bytesToHex(serialBytes);
   if (format === "hex-upper") return bytesToHex(serialBytes).toUpperCase();
   if (format === "decimal") return bytesToBigInt(serialBytes).toString(10);
-  throw new Error("Bilinmeyen seri numarası formatı: " + format);
+  throw new Error("Unknown serial number format: " + format);
 }
 
 
 // -----------------------------------------------------------------------
-// Minimal ASN.1 DER ayrıştırıcı
-// (RFC 3161 TimeStampResp yapısını okumak için yeterli, genel amaçlı,
-// belirsiz uzunluk (indefinite length / BER) desteklemez — DER için
-// gerekmiyor.)
+// Minimal ASN.1 DER Parser
 // -----------------------------------------------------------------------
 
 function parseDER(bytes, offset = 0) {
   if (offset >= bytes.length) {
-    throw new Error("TSR dosyası beklenenden erken bitti.");
+    throw new Error("TSR file ended unexpectedly.");
   }
 
   const tag = bytes[offset];
   let p = offset + 1;
 
-  if (p >= bytes.length) throw new Error("TSR dosyası bozuk (uzunluk baytı eksik).");
+  if (p >= bytes.length) throw new Error("Malformed TSR (missing length byte).");
   let lenByte = bytes[p++];
   let length;
 
   if (lenByte & 0x80) {
     const numBytes = lenByte & 0x7f;
-    if (numBytes === 0) throw new Error("TSR dosyası desteklenmeyen bir kodlama kullanıyor (belirsiz uzunluk).");
-    if (p + numBytes > bytes.length) throw new Error("TSR dosyası bozuk (uzunluk alanı taşıyor).");
+    if (numBytes === 0) throw new Error("Unsupported encoding (indefinite length).");
+    if (p + numBytes > bytes.length) throw new Error("Malformed TSR (length field overflow).");
     length = 0;
     for (let i = 0; i < numBytes; i++) length = length * 256 + bytes[p++];
   } else {
@@ -740,7 +726,7 @@ function parseDER(bytes, offset = 0) {
   const valueStart = p;
   const valueEnd = valueStart + length;
   if (valueEnd > bytes.length) {
-    throw new Error("TSR dosyası bozuk görünüyor (beyan edilen uzunluk dosya sınırını aşıyor).");
+    throw new Error("Malformed TSR (declared length exceeds bounds).");
   }
 
   const constructed = (tag & 0x20) !== 0;
@@ -761,21 +747,11 @@ function parseDER(bytes, offset = 0) {
 
 function childOrThrow(node, index, context) {
   if (!node.children || node.children.length <= index) {
-    throw new Error("TSR yapısı beklenen alanı içermiyor: " + context);
+    throw new Error("TSR structure missing expected field: " + context);
   }
   return node.children[index];
 }
 
-// TimeStampResp içinden TSTInfo'yu (ve dolayısıyla serialNumber + genTime'ı)
-// çıkarır. Yapı (RFC 3161):
-//   TimeStampResp        ::= SEQUENCE { status, timeStampToken }
-//   timeStampToken        = ContentInfo (SEQUENCE)
-//   ContentInfo           ::= SEQUENCE { contentType, content [0] EXPLICIT }
-//   content[0]             -> SignedData (SEQUENCE)
-//   SignedData            ::= SEQUENCE { version, digestAlgorithms, encapContentInfo, ... }
-//   encapContentInfo      ::= SEQUENCE { eContentType, eContent [0] EXPLICIT OCTET STRING }
-//   eContent'in içeriği    = TSTInfo'nun DER kodlaması
-//   TSTInfo               ::= SEQUENCE { version, policy, messageImprint, serialNumber, genTime, ... }
 function extractTsaInfo(tsrBytes) {
   const timeStampResp = parseDER(tsrBytes, 0);
   const timeStampToken = childOrThrow(timeStampResp, 1, "timeStampToken (ContentInfo)");
@@ -791,8 +767,6 @@ function extractTsaInfo(tsrBytes) {
   const serialNode = childOrThrow(tstInfo, 3, "TSTInfo.serialNumber");
   const genTimeNode = tstInfo.children[4] || null;
 
-  // INTEGER kodlamasında, en yüksek bit set olduğunda negatif algılanmaması
-  // için baştaki 0x00 dolgu baytı eklenir — anlamlı değer için bunu at.
   let serialBytes = serialNode.raw;
   let i = 0;
   while (serialBytes.length - i > 1 && serialBytes[i] === 0x00 && (serialBytes[i + 1] & 0x80)) {
@@ -805,24 +779,17 @@ function extractTsaInfo(tsrBytes) {
   return { serialBytes, genTime };
 }
 
-// Bazı TSA istemcileri (ve bu projedeki dashboard.php de dahil olmak
-// üzere) TSR yanıtını binary DER olarak değil, hex-encoded ASCII metin
-// olarak diske yazar (örn. dosyanın içeriği "3082..." gibi okunabilir
-// karakterlerden oluşur, gerçek baytlardan değil). Standart binary DER'de
-// böyle bir şey olamaz: 16'lık hex karakterleri (0-9a-fA-F) dışında baytlar
-// mutlaka bulunur. Bu yüzden önce dosyanın hex-metin olup olmadığına bakılır.
 function isProbablyHexText(bytes) {
   if (bytes.length === 0) return false;
   let hexChars = 0;
   let total = 0;
   for (const b of bytes) {
-    // satır sonu / boşluk karakterlerini yok say
     if (b === 0x0a || b === 0x0d || b === 0x20 || b === 0x09) continue;
     total++;
     const isHexDigit =
-      (b >= 0x30 && b <= 0x39) || // 0-9
-      (b >= 0x41 && b <= 0x46) || // A-F
-      (b >= 0x61 && b <= 0x66);   // a-f
+      (b >= 0x30 && b <= 0x39) || 
+      (b >= 0x41 && b <= 0x46) || 
+      (b >= 0x61 && b <= 0x66);
     if (isHexDigit) hexChars++;
   }
   return total > 0 && hexChars === total;
@@ -831,7 +798,7 @@ function isProbablyHexText(bytes) {
 function hexTextToBytes(bytes) {
   const str = new TextDecoder().decode(bytes).replace(/\s+/g, "");
   if (str.length % 2 !== 0) {
-    throw new Error("Hex metin olarak algılandı ama karakter sayısı tek — dosya yarım kalmış olabilir.");
+    throw new Error("Detected hex text but length is odd — file might be truncated.");
   }
   const out = new Uint8Array(str.length / 2);
   for (let i = 0; i < out.length; i++) {
@@ -840,7 +807,6 @@ function hexTextToBytes(bytes) {
   return out;
 }
 
-// Dosyayı ham haliyle veya (gerekiyorsa) hex çözümü yapılmış haliyle döner.
 function normalizeTsrBytes(rawBytes) {
   if (isProbablyHexText(rawBytes)) {
     return hexTextToBytes(rawBytes);
@@ -858,7 +824,7 @@ function parseGeneralizedTime(str) {
 
 
 // -----------------------------------------------------------------------
-// Blockchain sorgusu (doğrudan JSON-RPC, herhangi bir kütüphane yok)
+// Blockchain Query
 // -----------------------------------------------------------------------
 
 async function getStampTimestamp(finalHashHex) {
@@ -881,24 +847,24 @@ async function getStampTimestamp(finalHashHex) {
       });
       if (!res.ok) throw new Error("RPC HTTP " + res.status);
       const json = await res.json();
-      if (json.error) throw new Error(json.error.message || "RPC hata döndürdü.");
-      if (!json.result) throw new Error("RPC boş yanıt döndürdü.");
+      if (json.error) throw new Error(json.error.message || "RPC returned an error.");
+      if (!json.result) throw new Error("RPC returned an empty response.");
       return BigInt(json.result);
     } catch (err) {
       lastError = err;
-      continue; // sıradaki RPC'yi dene
+      continue; 
     }
   }
 
   throw new Error(
-    "Hiçbir blockchain düğümüne ulaşılamadı. " +
-    (lastError ? "Son hata: " + lastError.message : "")
+    "Could not connect to any blockchain nodes. " +
+    (lastError ? "Last error: " + lastError.message : "")
   );
 }
 
 
 // -----------------------------------------------------------------------
-// UI durum yönetimi
+// UI State Management
 // -----------------------------------------------------------------------
 
 const form = document.getElementById("verifyForm");
@@ -927,8 +893,8 @@ function wireFileLabel(input, dropEl, nameEl, fallbackText) {
     }
   });
 }
-wireFileLabel(tsrFileInput, tsrDrop, tsrFileName, "Dosya seçin veya sürükleyin");
-wireFileLabel(originalFileInput, originalDrop, originalFileName, "Dosya seçin veya sürükleyin");
+wireFileLabel(tsrFileInput, tsrDrop, tsrFileName, "Select or drop file");
+wireFileLabel(originalFileInput, originalDrop, originalFileName, "Select or drop file");
 
 function showFormError(message) {
   formError.textContent = message;
@@ -953,18 +919,18 @@ function setLoading(isLoading, label) {
 
 function renderSuccess({ date, finalHash }) {
   const dateStr = date
-    ? date.toLocaleString("tr-TR", { dateStyle: "long", timeStyle: "medium", timeZone: "UTC" }) + " (UTC)"
-    : "bilinmiyor";
+    ? date.toLocaleString("en-US", { dateStyle: "long", timeStyle: "medium", timeZone: "UTC" }) + " (UTC)"
+    : "unknown";
 
   resultBox.classList.add("visible");
   resultBox.innerHTML = `
     <div class="result-inner">
-      <div class="stamp success">Doğrulandı</div>
+      <div class="stamp success">Verified</div>
       <div class="result-text success">
-        <h3>Bu kayıt blockchain'de mevcut.</h3>
-        <p>Zincire yazılma zamanı: <strong>${dateStr}</strong></p>
-        <p>Mühür (finalHash): <code>${finalHash}</code></p>
-        <p>Bu sonuç yalnızca Polygon ağından okunmuştur; Homostamp veritabanına hiç erişilmedi.</p>
+        <h3>This record exists on the blockchain.</h3>
+        <p>Timestamp anchored on-chain: <strong>${dateStr}</strong></p>
+        <p>Seal (finalHash): <code>${finalHash}</code></p>
+        <p>This result was pulled directly from the Polygon network; Homostamp database was not accessed.</p>
       </div>
     </div>`;
 }
@@ -973,13 +939,12 @@ function renderFail() {
   resultBox.classList.add("visible");
   resultBox.innerHTML = `
     <div class="result-inner">
-      <div class="stamp fail">Bulunamadı</div>
+      <div class="stamp fail">Not Found</div>
       <div class="result-text fail">
-        <h3>Bu kombinasyon zincirde kayıtlı değil.</h3>
-        <p>Doğrulama kodu, .tsr dosyası ve orijinal eserin üçü de birbiriyle
-           birebir eşleşmeli. Dosyanın mühürlendiği andan sonra
-           değiştirilmemiş (yeniden kaydedilmemiş, sıkıştırılmamış,
-           dönüştürülmemiş) olduğundan emin olun.</p>
+        <h3>This combination is not registered on-chain.</h3>
+        <p>The verification code, .tsr file, and original work must all match perfectly. 
+           Ensure the file has not been modified (re-saved, compressed, or converted) 
+           since the moment it was originally stamped.</p>
       </div>
     </div>`;
 }
@@ -988,9 +953,9 @@ function renderError(message) {
   resultBox.classList.add("visible");
   resultBox.innerHTML = `
     <div class="result-inner">
-      <div class="stamp fail">Hata</div>
+      <div class="stamp fail">Error</div>
       <div class="result-text fail">
-        <h3>Doğrulama tamamlanamadı.</h3>
+        <h3>Verification could not be completed.</h3>
         <p>${message}</p>
       </div>
     </div>`;
@@ -998,7 +963,7 @@ function renderError(message) {
 
 
 // -----------------------------------------------------------------------
-// Ana akış
+// Main Execution Flow
 // -----------------------------------------------------------------------
 
 form.addEventListener("submit", async (e) => {
@@ -1012,20 +977,20 @@ form.addEventListener("submit", async (e) => {
   const originalFile = originalFileInput.files[0];
 
   if (!/^HS-[A-F0-9]{12}$/.test(verificationCode)) {
-    showFormError("Doğrulama kodu 'HS-' ile başlayıp 12 karakterlik onaltılık bir kod içermeli. Örn: HS-93AF01C1E7B2");
+    showFormError("Verification code must start with 'HS-' followed by a 12-character hex string. E.g., HS-93AF01C1E7B2");
     return;
   }
   if (!tsrFile) {
-    showFormError("Lütfen .tsr zaman damgası dosyasını seçin.");
+    showFormError("Please select the .tsr timestamp file.");
     return;
   }
   if (!originalFile) {
-    showFormError("Lütfen orijinal eseri seçin.");
+    showFormError("Please select the original file.");
     return;
   }
 
   try {
-    setLoading(true, "Dosyalar okunuyor ve özet çıkarılıyor…");
+    setLoading(true, "Reading files and computing hashes…");
 
     const rawTsrBytes = new Uint8Array(await tsrFile.arrayBuffer());
     const tsrBytes = normalizeTsrBytes(rawTsrBytes);
@@ -1033,13 +998,13 @@ form.addEventListener("submit", async (e) => {
     try {
       tsaInfo = extractTsaInfo(tsrBytes);
     } catch (err) {
-      throw new Error("TSR dosyası çözümlenemedi: " + err.message + " Doğru dosyayı yüklediğinizden emin olun.");
+      throw new Error("Failed to parse TSR file: " + err.message + " Make sure you uploaded the correct file.");
     }
 
     const fileHashHex = await sha256HexOfFile(originalFile);
     const genTimeDate = parseGeneralizedTime(tsaInfo.genTime);
 
-    setLoading(true, "Zincir üzerinde mühür aranıyor…");
+    setLoading(true, "Searching for the seal on the ledger…");
 
     let matched = null;
     const triedFormats = new Set();
@@ -1066,14 +1031,12 @@ form.addEventListener("submit", async (e) => {
       renderFail();
     }
   } catch (err) {
-    renderError(err.message || "Beklenmeyen bir hata oluştu.");
+    renderError(err.message || "An unexpected error occurred.");
   } finally {
     sealButton.disabled = false;
   }
 });
 </script>
-
-
 
 </body>
 </html>
