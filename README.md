@@ -17,7 +17,7 @@ A fully decentralized, client-side verification tool for **HomoStamp** certifica
 
 To guarantee that a document hasn't been tampered with and was anchored at a specific point in time, the validator implements a rigid cryptographic binding formula:
 
-$$finalHash = \text{SHA-256}(\text{verification\_code} + \text{tsa\_serial} + \text{sha256\_hash})$$
+`$$finalHash = \text{SHA-256}(\text{verification\_code} + \text{tsa\_serial} + \text{sha256\_hash})$$`
 
 1.  **Verification Code:** The unique system prefix (e.g., `HS-XXXXXXXXXXXX`).
 2.  **TSA Serial:** The official serial number issued by the Time Stamping Authority.
